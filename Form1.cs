@@ -79,6 +79,15 @@ namespace Platformer
 
         // event managed methods
 
+
+        private void Form1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Up || e.KeyCode == Keys.Left || e.KeyCode == Keys.Right || e.KeyCode == Keys.Down)
+            {
+                e.IsInputKey = true;
+            }
+        }
+
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Up) _player.targetDir.Item2 = 0;

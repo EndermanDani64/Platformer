@@ -66,6 +66,7 @@
             Text = "Form1";
             KeyDown += Form1_KeyDown;
             KeyUp += Form1_KeyUp;
+            PreviewKeyDown += Form1_PreviewKeyDown;
             ((System.ComponentModel.ISupportInitialize)playerObj).EndInit();
             ResumeLayout(false);
             PerformLayout();
