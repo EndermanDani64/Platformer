@@ -38,7 +38,7 @@
             // playerObj
             // 
             playerObj.BackColor = SystemColors.ActiveCaptionText;
-            playerObj.Location = new Point(51, 217);
+            playerObj.Location = new Point(361, 310);
             playerObj.Name = "playerObj";
             playerObj.Size = new Size(31, 54);
             playerObj.TabIndex = 0;
@@ -64,7 +64,7 @@
             MaximizeBox = false;
             Name = "Form1";
             Text = "Form1";
-            KeyDown += Form1_KeyDown;
+            //KeyDown += Form1_KeyDown;
             KeyUp += Form1_KeyUp;
             ((System.ComponentModel.ISupportInitialize)playerObj).EndInit();
             ResumeLayout(false);

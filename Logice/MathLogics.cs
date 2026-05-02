@@ -20,5 +20,15 @@ namespace Platformer.Logice
 
             return Lerp(start, end, smoothT);
         }
+
+        public static float GetMagnitude((int, int) vector)
+        {
+            return (float)Math.Sqrt((vector.Item1 * vector.Item1) + (vector.Item2 * vector.Item2));
+        }
+
+        public static (float, float) Normalize((int, int) vector)
+        {
+            return (vector.Item1 / GetMagnitude(vector), vector.Item2 / GetMagnitude(vector));
+        }
     }
 }

@@ -12,11 +12,9 @@ namespace Platformer.Logic
         public static List<GameObject> gameObjects = new();
         public static List<PictureBox> gameObjectsPicBoxes = new();
 
-        public static float gravity = 9.14f;
-
         public static void CreateGameObject()
         {
-            GameObject newGO = new GameObject((0, 0), (50, 50));
+            GameObject newGO = new GameObject((0, 0), (50, 50), true);
             gameObjects.Add(newGO);
             gameObjectsPicBoxes.Add(newGO.gameObject);
         }
@@ -30,17 +28,13 @@ namespace Platformer.Logic
         /// <summary>
         /// Returns false if it doesn't collide with anything.
         /// </summary>
-        public static bool CheckCollison(PictureBox targetObj)
+        public static bool CheckCollison(Point targetPoint, ref GameObject exeption)
         {
             foreach (PictureBox obj in gameObjectsPicBoxes)
             {
-                if (obj == targetObj) continue;
+                Rectangle currentObjRect = new(obj.Location, obj.Size);
 
-                if (targetObj.Bounds.IntersectsWith(obj.Bounds))
-                {
-                    return true;
-                }
-                else return false;
+                return currentObjRect.Contains(targetPoint);
             }
             return false;
         }

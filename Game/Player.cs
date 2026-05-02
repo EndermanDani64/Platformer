@@ -5,65 +5,26 @@ namespace Platformer.Game
 {
     internal class Player
     {
-        bool _isAir = true;
-
         public (int, int) targetDir = (0, 0);
+        GameObject playerCollision;
 
-        float _elapsed = 0f;
-        float _duration = .4f;
-        Point _start;
-        Point _target;
-        bool _jumping = false;
         public void Movment()
         {
-            //if (_isAir) return;
+            int x = playerObj.Location.X + targetDir.Item1 * 2;
+            int y = playerObj.Location.Y + targetDir.Item2 * 2;
 
-            if (targetDir.Item2 != 0 && !_jumping)
-            {
-                Debug.WriteLineIf(true, "1th enter");
-                _start = playerObj.Location;
-                _target = new Point(playerObj.Location.X + targetDir.Item1 * 23, playerObj.Location.Y + targetDir.Item2 * 15);
-                _elapsed = 0f;
-                _jumping = true;
-            }
-            else if (targetDir.Item2 != 0 && _jumping)
-            {
-                Debug.WriteLineIf(true, $"2th enter, dt: {Time.deltaTime}, elapsed: {_elapsed}");
-
-                _elapsed += Time.deltaTime;
-                float t = _elapsed / _duration;
-
-                if (t >= 1f)
-                {
-                    t = 1f;
-                    _jumping = false;
-                }
-
-                float smooth = t * (3f - 2f * t); // smoothstep
-
-                int x = (int)(_start.X + (_target.X - _start.X) * smooth);
-                int y = (int)(_start.Y + (_target.Y - _start.Y) * smooth);
-
-                playerObj.Location = new Point(x + targetDir.Item2 * 3, y);
-            }
-            else // formInstanceRef.debugLogging 
-            { 
-                Debug.WriteLineIf(true, $"3th enter, targetDir = {targetDir}");
-
-                int x = playerObj.Location.X + targetDir.Item1 * 3;
-                int y = playerObj.Location.Y;
-
-                playerObj.Location = new Point(x, y);
-            }
+            playerObj.Location = new Point(x, y);
+            playerCollision.gameObject.Location = new Point(playerObj.Location.X, playerObj.Location.Y + playerObj.Size.Height - playerObj.Size.Width);
         }
 
-        public void CheckIsAir()
+        public void CheckCollision()
         {
             foreach (PictureBox obj in World.gameObjectsPicBoxes)
             {
                 if (obj == playerObj) continue;
+                if (obj == playerCollision.gameObject) continue;
 
-                if (playerObj.Bounds.IntersectsWith(obj.Bounds))
+                if (playerCollision.gameObject.Bounds.IntersectsWith(obj.Bounds))
                 {
                     int overlapLeft = 0;
                     int overlapRight = 0;
@@ -72,7 +33,7 @@ namespace Platformer.Game
 
                     // player alsó ellenőrzése
 
-                    overlapBottom = obj.Bottom - playerObj.Top;
+                    overlapBottom = obj.Bottom - playerCollision.gameObject.Top;
 
                     // player felső ellenőrzése
 
@@ -95,8 +56,6 @@ namespace Platformer.Game
                     {
                         // player felülről érkezett (ráesett)
                         playerObj.Top -= overlapTop;
-
-                        _isAir = false;
                     }
                     else if (min == overlapBottom)
                     {
@@ -114,23 +73,21 @@ namespace Platformer.Game
                         playerObj.Left += overlapRight;
                     }
                 }
-                else _isAir = true;
             }
-        }
-
-        public void ApplyGravity()
-        {
-            if (!_isAir /*&& !_jumpCooldown*/) return;
-
-            int y = playerObj.Location.Y;
-            playerObj.Location = new Point(playerObj.Location.X, ++y);
         }
 
         public void Initial()
         {
-            World.gameObjectsPicBoxes.Add(playerObj);
-            Time.Update += ApplyGravity;
-            Time.Update += CheckIsAir;
+            playerCollision = new(
+                (playerObj.Location.X + (playerObj.Size.Width / 2), playerObj.Location.Y + playerObj.Size.Height - playerObj.Size.Width), 
+                (playerObj.Size.Width, playerObj.Size.Width), true
+            );
+
+            playerCollision.formInstanceRef = formInstanceRef;
+            playerCollision.gameObject.BackColor = Color.Gray;
+            formInstanceRef.CreateObject(playerCollision, playerCollision.gameObject);
+
+            Time.Update += CheckCollision;
             Time.Update += Movment;
         }
 
