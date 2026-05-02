@@ -59,6 +59,7 @@ namespace Platformer.Logic
                 time += deltaTime;
             }
 
+            lastFrame = now;
             Update?.Invoke();
         }
 

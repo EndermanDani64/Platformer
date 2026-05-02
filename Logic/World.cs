@@ -23,7 +23,7 @@ namespace Platformer.Logic
 
         public static int GetDistance(Point p1, Point p2)
         {
-            return (p1.X - p2.X) * (p1.Y - p2.Y);
+            return (int)Math.Sqrt((int)Math.Pow(Math.Abs(p2.Y - p1.Y), 2) + (int)Math.Pow(Math.Abs(p2.X - p1.X), 2));
         }
 
 
