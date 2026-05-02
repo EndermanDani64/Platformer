@@ -5,62 +5,56 @@ namespace Platformer.Game
 {
     internal class Player
     {
-        int _gravity = 1;
         bool _isAir = true;
-        bool _jumpCooldown = false;
 
         public (int, int) targetDir = (0, 0);
 
-        float elapsed = 0f;
-        float duration = .4f;
-        Point start;
-        Point target;
-        bool jumping = false;
-        bool temp = false;
-
+        float _elapsed = 0f;
+        float _duration = .4f;
+        Point _start;
+        Point _target;
+        bool _jumping = false;
         public void Movment()
         {
             //if (_isAir) return;
 
-            if (!_jumpCooldown && targetDir.Item2 != 0 /*&& !World.CheckCollison(playerObj)*/) // ide ez nem szükséges szerintem
+            if (targetDir.Item2 != 0 && !_jumping)
             {
-                Debug.WriteLine("1th enter");
-                start = playerObj.Location;
-                target = new Point(playerObj.Location.X + targetDir.Item1 * 23, playerObj.Location.Y + targetDir.Item2 * 15);
-                elapsed = 0f;
-                jumping = true;
+                Debug.WriteLineIf(true, "1th enter");
+                _start = playerObj.Location;
+                _target = new Point(playerObj.Location.X + targetDir.Item1 * 23, playerObj.Location.Y + targetDir.Item2 * 15);
+                _elapsed = 0f;
+                _jumping = true;
             }
-            else if (jumping)
+            else if (targetDir.Item2 != 0 && _jumping)
             {
-                Debug.WriteLine($"2th enter, dt: {Time.deltaTime}, elapsed: {elapsed}");
+                Debug.WriteLineIf(true, $"2th enter, dt: {Time.deltaTime}, elapsed: {_elapsed}");
 
-                elapsed += Time.deltaTime;
-                float t = elapsed / duration;
+                _elapsed += Time.deltaTime;
+                float t = _elapsed / _duration;
 
                 if (t >= 1f)
                 {
                     t = 1f;
-                    jumping = false;
+                    _jumping = false;
                 }
 
                 float smooth = t * (3f - 2f * t); // smoothstep
 
-                int x = (int)(start.X + (target.X - start.X) * smooth);
-                int y = (int)(start.Y + (target.Y - start.Y) * smooth);
+                int x = (int)(_start.X + (_target.X - _start.X) * smooth);
+                int y = (int)(_start.Y + (_target.Y - _start.Y) * smooth);
 
                 playerObj.Location = new Point(x + targetDir.Item2 * 3, y);
             }
-            else
-            {
-                Debug.WriteLine("3th enter");
+            else // formInstanceRef.debugLogging 
+            { 
+                Debug.WriteLineIf(true, $"3th enter, targetDir = {targetDir}");
 
                 int x = playerObj.Location.X + targetDir.Item1 * 3;
                 int y = playerObj.Location.Y;
 
                 playerObj.Location = new Point(x, y);
             }
-
-
         }
 
         public void CheckIsAir()
@@ -103,7 +97,6 @@ namespace Platformer.Game
                         playerObj.Top -= overlapTop;
 
                         _isAir = false;
-                        _gravity = 0;
                     }
                     else if (min == overlapBottom)
                     {

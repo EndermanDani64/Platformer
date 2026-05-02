@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Platformer.Game;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace Platformer.Logic
 
         private static DateTime lastFrame;
 
-        public static Action Update;
+        public static event Action Update;
 
         // main methods
 

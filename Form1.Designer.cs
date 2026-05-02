@@ -31,23 +31,35 @@
             components = new System.ComponentModel.Container();
             playerObj = new PictureBox();
             mainTimer = new System.Windows.Forms.Timer(components);
+            debugCheckBox = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)playerObj).BeginInit();
             SuspendLayout();
             // 
             // playerObj
             // 
             playerObj.BackColor = SystemColors.ActiveCaptionText;
-            playerObj.Location = new Point(331, 233);
+            playerObj.Location = new Point(51, 217);
             playerObj.Name = "playerObj";
             playerObj.Size = new Size(31, 54);
             playerObj.TabIndex = 0;
             playerObj.TabStop = false;
+            // 
+            // debugCheckBox
+            // 
+            debugCheckBox.AutoSize = true;
+            debugCheckBox.Location = new Point(703, 12);
+            debugCheckBox.Name = "debugCheckBox";
+            debugCheckBox.Size = new Size(85, 19);
+            debugCheckBox.TabIndex = 1;
+            debugCheckBox.Text = "debug logs";
+            debugCheckBox.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(debugCheckBox);
             Controls.Add(playerObj);
             MaximizeBox = false;
             Name = "Form1";
@@ -56,11 +68,14 @@
             KeyUp += Form1_KeyUp;
             ((System.ComponentModel.ISupportInitialize)playerObj).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private PictureBox playerObj;
         internal System.Windows.Forms.Timer mainTimer;
+        private CheckBox checkBox1;
+        private CheckBox debugCheckBox;
     }
 }

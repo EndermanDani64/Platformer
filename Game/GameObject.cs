@@ -1,6 +1,8 @@
 ﻿using Platformer.Logic;
+using Platformer.Logice;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +17,8 @@ namespace Platformer.Game
 
         int _gravity = 0;
         bool _isAir = false;
+        float _ellapsed = 0;
+        float _duration = -1;
 
         public GameObject((int, int) location, (int, int) size)
         {
@@ -28,6 +32,35 @@ namespace Platformer.Game
             gameObject.BackColor = Color.Blue;
         }
 
+        private Point startLoc;
+        private bool isMoving = false;
+        /// <summary>
+        /// Usable with the event Update.
+        /// </summary>
+        public void MoveTo(Point target, float duration)
+        {
+            if (_duration == -1) 
+            { 
+                _duration = duration;
+                isMoving = true;
+                startLoc = Location;
+            }
+
+            _ellapsed += Time.deltaTime;
+
+            float t = _ellapsed / _duration;
+
+            if (t > 25) { return; }
+
+            Debug.WriteLineIf(formInstanceRef.debugLogging, $"_ellapsed: {_ellapsed} / _duration: {_duration} = {t}");
+
+            int x = Convert.ToInt32(MathLogics.SmoothLerp(startLoc.X, target.X, t));
+            int y = Convert.ToInt32(MathLogics.SmoothLerp(startLoc.Y, target.Y, t));
+
+            Point next = new Point(x, y);
+            gameObject.Location = next;
+        }
+
         public void ApplyGravity()
         {
             if (!_isAir && !kinematic) return;
@@ -35,7 +68,6 @@ namespace Platformer.Game
             _gravity++;
             gameObject.Location = new Point(gameObject.Location.X, _gravity);
         }
-
         public void CheckIsAir()
         {
             //if (!kinematic) return;
@@ -54,7 +86,6 @@ namespace Platformer.Game
                 else _isAir = true;
             }
         }
-
         public void Initial()
         {
             World.gameObjectsPicBoxes.Add(gameObject);

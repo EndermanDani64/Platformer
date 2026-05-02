@@ -56,10 +56,5 @@ namespace Platformer.Logic
             else if (Layer3.Contains(object1) && Layer3.Contains(object2)) return true;
             return false;
         }
-
-        private static float Lerp(float a, float b, float t)
-        {
-            return a + (b - a) * t;
-        }
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.VisualBasic.Devices;
 using Platformer.Game;
 using Platformer.Logic;
+using System.Diagnostics;
 using System.Windows.Input;
 
 namespace Platformer
@@ -9,7 +10,7 @@ namespace Platformer
     {
         private Player _player;
 
-        public int gravity;
+        public bool debugLogging = false;
 
         public Form1()
         {
@@ -21,7 +22,10 @@ namespace Platformer
 
             Time.timerRef = mainTimer;
             Time.StartGameTime();
+            Time.Update += Update;
             Start();
+
+            debugCheckBox.CheckedChanged += (s, e) => { debugLogging = debugCheckBox.Checked; };
         }
 
         /// <summary>
@@ -47,20 +51,30 @@ namespace Platformer
             this.Controls.Add(obj);
         }
 
+        // ##################################################################################### //
+
+        GameObject ground;
+        GameObject testywest;
+
         /// <summary>
         /// Main method to call stuff.
         /// </summary>
         private void Start()
         {
-            GameObject ground = new((this.Size.Width / 2, this.Size.Height - 75), (900, 75));
+            ground = new((this.Size.Width / 2, this.Size.Height - 75), (900, 75));
             ground.formInstanceRef = this;
             ground.Initial();
             CreateObject(ground.gameObject);
 
-            GameObject testywest = new((this.Size.Width / 2, this.Size.Height - 250), (50, 50));
+            testywest = new((this.Size.Width / 2, this.Size.Height - 250), (50, 50));
             testywest.formInstanceRef = this;
             testywest.Initial();
             CreateObject(testywest.gameObject);
+        }
+
+        private void Update()
+        {
+            Time.Update += () => { testywest.MoveTo(new Point(100, 100), 8); };
         }
 
         // event managed methods
@@ -80,6 +94,5 @@ namespace Platformer
             if (e.KeyCode == Keys.Left) _player.targetDir.Item1 = -1;
             else if (e.KeyCode == Keys.Right) _player.targetDir.Item1 = 1;
         }
-
     }
 }
