@@ -1,9 +1,12 @@
 ﻿using Platformer.Game;
+using System.Diagnostics;
 
 namespace Platformer.Logic
 {
     internal static class World
     {
+        public static int unitSquareSize = 25;
+
         public static List<GameObject> Layer0;
         public static List<GameObject> Layer1;
         public static List<GameObject> Layer2;
@@ -12,18 +15,10 @@ namespace Platformer.Logic
         public static List<GameObject> gameObjects = new();
         public static List<PictureBox> gameObjectsPicBoxes = new();
 
-        public static void CreateGameObject()
-        {
-            GameObject newGO = new GameObject((0, 0), (50, 50), true);
-            gameObjects.Add(newGO);
-            gameObjectsPicBoxes.Add(newGO.gameObject);
-        }
-
         public static int GetDistance(Point p1, Point p2)
         {
             return (int)Math.Sqrt((int)Math.Pow(Math.Abs(p2.Y - p1.Y), 2) + (int)Math.Pow(Math.Abs(p2.X - p1.X), 2));
         }
-
 
         /// <summary>
         /// Returns false if it doesn't collide with anything.
@@ -50,5 +45,7 @@ namespace Platformer.Logic
             else if (Layer3.Contains(object1) && Layer3.Contains(object2)) return true;
             return false;
         }
+
+        public static Form1 formInstanceRef;
     }
 }

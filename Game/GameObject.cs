@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace Platformer.Game
 {
-    internal class GameObject
+    internal class GameObject : BaseObject
     {
         private Point _location;
         public Point Location
@@ -13,7 +13,7 @@ namespace Platformer.Game
             set
             {
                 _location = value;
-                gameObject.Location = value;
+                baseObject.Location = value;
             }
         }
 
@@ -24,7 +24,7 @@ namespace Platformer.Game
             set
             {
                 _size = value;
-                gameObject.Size = value;
+                baseObject.Size = value;
             }
         }
 
@@ -35,23 +35,26 @@ namespace Platformer.Game
             set
             {
                 _colision = value;
-                World.gameObjectsPicBoxes.Remove(gameObject);
+
+                if (value == false) World.gameObjectsPicBoxes.Remove(baseObject);
+                else if (value == true && !World.gameObjectsPicBoxes.Contains(baseObject)) 
+                {
+                    World.gameObjectsPicBoxes.Add(baseObject);
+                }
             }
         }
 
         float _ellapsed = 0;
         float _duration = -1;
 
-        public GameObject((int, int) location, (int, int) size, bool collision)
+        public GameObject((int, int) location, (int, int) size, bool collision, Form1 formInstanceRef) : base(collision, formInstanceRef)
         {
-            gameObject = new PictureBox();
-
             Colision = collision;
 
             Location = new(location.Item1, location.Item2);
             Size = new(size.Item1, size.Item2);
 
-            gameObject.BackColor = Color.Blue;
+            baseObject.BackColor = Color.Blue;
         }
 
         private Point startLoc;
@@ -78,15 +81,7 @@ namespace Platformer.Game
             int y = Convert.ToInt32(MathLogics.SmoothLerp(startLoc.Y, target.Y, t));
 
             Point next = new Point(x, y);
-            gameObject.Location = next;
+            baseObject.Location = next;
         }
-
-        /*public void Initial()
-        {
-            if (Colision) World.gameObjectsPicBoxes.Add(gameObject);
-        }*/
-
-        public Form1 formInstanceRef;
-        public PictureBox gameObject;
     }
 }

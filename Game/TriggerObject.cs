@@ -13,14 +13,13 @@ namespace Platformer.Game
     {
         public event System.Action OnTriggerEnter;
 
-        public TriggerObject((int, int) location, (int, int) size, bool collision, Player playerRef) : base(location, size, collision)
+        public TriggerObject((int, int) location, (int, int) size, bool collision, Player playerRef, Form1 formInstanceRef) 
+            : base(location, size, collision, formInstanceRef)
         {
-            gameObject = new PictureBox();
-
             Location = new(location.Item1, location.Item2);
             Size = new(size.Item1, size.Item2);
 
-            gameObject.BackColor = Color.Red;
+            baseObject.BackColor = Color.Red;
 
             this.playerRef = playerRef;
             Time.Update += CheckTrigger;
@@ -28,7 +27,7 @@ namespace Platformer.Game
 
         public void CheckTrigger()
         {
-            Rectangle triggerRect = gameObject.Bounds;
+            Rectangle triggerRect = baseObject.Bounds;
             Rectangle playerRect = playerRef.playerObj.Bounds;
 
             if (triggerRect.IntersectsWith(playerRect))

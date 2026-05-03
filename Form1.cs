@@ -1,8 +1,6 @@
-using Microsoft.VisualBasic.Devices;
 using Platformer.Game;
 using Platformer.Logic;
 using System.Diagnostics;
-using System.Windows.Input;
 
 namespace Platformer
 {
@@ -25,6 +23,8 @@ namespace Platformer
             Time.Update += Update;
             Start();
 
+            World.formInstanceRef = this;
+
             debugCheckBox.CheckedChanged += (s, e) => { debugLogging = debugCheckBox.Checked; };
         }
 
@@ -46,13 +46,6 @@ namespace Platformer
             _player.Initial();
         }
 
-        public void CreateObject(ref GameObject mainObj, PictureBox picObj)
-        {
-            World.gameObjectsPicBoxes.Add(picObj);
-            this.Controls.Add(picObj);
-            mainObj.formInstanceRef = this;
-        }
-
         // ##################################################################################### //
 
         GameObject ground;
@@ -61,22 +54,15 @@ namespace Platformer
         /// <summary>
         /// Main method to call stuff.
         /// </summary>
-        private void Start() // ZZZ...
+        private void Start()
         {
-            ground = new((this.Size.Width / 2, this.Size.Height - 75), (900, 75), true);
-            /*ground.formInstanceRef = this;
-            ground.Initial();*/
-            CreateObject(ref ground, ground.gameObject);
-
-            testywest = new((this.Size.Width / 2, this.Size.Height - 250), (100, 50), false, _player);
-            /*testywest.formInstanceRef = this;
-            testywest.Initial();*/
-            CreateObject(ref testywest, testywest.gameObject);
+            ground = new GameObject((Size.Width / 2, Size.Height-75), (900, 75), true, this);
+            testywest = new TriggerObject((Size.Width / 2, Size.Height-250), (100, 50), false, _player, this);
         }
 
         private void Update()
         {
-            //Time.Update += () => { testywest.MoveTo(new Point(100, 100), 1048); };
+
         }
 
         // event managed methods
@@ -105,32 +91,6 @@ namespace Platformer
                 Debug.WriteLine($"keyup, Right targetDir = {_player.targetDir}");
             }
         }
-
-        /*private void Form1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Up)
-            {
-                _player.targetDir.Item2 = -1;
-                Debug.WriteLine($"keyDOWN, Up targetDir = {_player.targetDir}");
-            }
-            else if (e.KeyCode == Keys.Down)
-            {
-                _player.targetDir.Item2 = 1;
-                Debug.WriteLine($"keyDOWN, Down targetDir = {_player.targetDir}");
-            }
-
-            if (e.KeyCode == Keys.Left) 
-            { 
-                _player.targetDir.Item1 = -1;
-                Debug.WriteLine($"keyDOWN, Left targetDir = {_player.targetDir}");
-            }   
-            else if (e.KeyCode == Keys.Right) 
-            { 
-                _player.targetDir.Item1 = 1;
-                Debug.WriteLine($"keyDOWN, Right targetDir = {_player.targetDir}");
-            }
-        }*/
-
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == Keys.W)
@@ -157,5 +117,31 @@ namespace Platformer
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
+
+        /*private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Up)
+            {
+                _player.targetDir.Item2 = -1;
+                Debug.WriteLine($"keyDOWN, Up targetDir = {_player.targetDir}");
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                _player.targetDir.Item2 = 1;
+                Debug.WriteLine($"keyDOWN, Down targetDir = {_player.targetDir}");
+            }
+
+            if (e.KeyCode == Keys.Left) 
+            { 
+                _player.targetDir.Item1 = -1;
+                Debug.WriteLine($"keyDOWN, Left targetDir = {_player.targetDir}");
+            }   
+            else if (e.KeyCode == Keys.Right) 
+            { 
+                _player.targetDir.Item1 = 1;
+                Debug.WriteLine($"keyDOWN, Right targetDir = {_player.targetDir}");
+            }
+        }*/
+
     }
 }

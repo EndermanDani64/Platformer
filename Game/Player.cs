@@ -14,7 +14,7 @@ namespace Platformer.Game
             int y = playerObj.Location.Y + targetDir.Item2 * 2;
 
             playerObj.Location = new Point(x, y);
-            playerCollision.gameObject.Location = new Point(playerObj.Location.X, playerObj.Location.Y + playerObj.Size.Height - playerObj.Size.Width);
+            playerCollision.baseObject.Location = new Point(playerObj.Location.X, playerObj.Location.Y + playerObj.Size.Height - playerObj.Size.Width);
         }
 
         public void CheckCollision()
@@ -22,10 +22,11 @@ namespace Platformer.Game
             foreach (PictureBox obj in World.gameObjectsPicBoxes)
             {
                 if (obj == playerObj) continue;
-                if (obj == playerCollision.gameObject) continue;
+                if (obj == playerCollision.baseObject) continue;
 
-                if (playerCollision.gameObject.Bounds.IntersectsWith(obj.Bounds))
+                if (playerCollision.baseObject.Bounds.IntersectsWith(obj.Bounds)) 
                 {
+
                     int overlapLeft = 0;
                     int overlapRight = 0;
                     int overlapTop = 0;
@@ -33,7 +34,7 @@ namespace Platformer.Game
 
                     // player alsó ellenőrzése
 
-                    overlapBottom = obj.Bottom - playerCollision.gameObject.Top;
+                    overlapBottom = obj.Bottom - playerCollision.baseObject.Top;
 
                     // player felső ellenőrzése
 
@@ -80,12 +81,11 @@ namespace Platformer.Game
         {
             playerCollision = new(
                 (playerObj.Location.X + (playerObj.Size.Width / 2), playerObj.Location.Y + playerObj.Size.Height - playerObj.Size.Width), 
-                (playerObj.Size.Width, playerObj.Size.Width), true
+                (playerObj.Size.Width, playerObj.Size.Width), true, formInstanceRef
             );
 
             playerCollision.formInstanceRef = formInstanceRef;
-            playerCollision.gameObject.BackColor = Color.Gray;
-            formInstanceRef.CreateObject(playerCollision, playerCollision.gameObject);
+            playerCollision.baseObject.BackColor = Color.Gray;
 
             Time.Update += CheckCollision;
             Time.Update += Movment;
