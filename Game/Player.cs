@@ -26,27 +26,21 @@ namespace Platformer.Game
 
                 if (playerCollision.baseObject.Bounds.IntersectsWith(obj.Bounds)) 
                 {
-
-                    int overlapLeft = 0;
-                    int overlapRight = 0;
-                    int overlapTop = 0;
-                    int overlapBottom = 0;
-
                     // player alsó ellenőrzése
 
-                    overlapBottom = obj.Bottom - playerCollision.baseObject.Top;
+                    int overlapBottom = obj.Bottom - playerCollision.baseObject.Top;
 
                     // player felső ellenőrzése
 
-                    overlapTop = playerObj.Bottom - obj.Top;
+                    int overlapTop = playerObj.Bottom - obj.Top;
 
                     // player bal oldal ellenőrzése
 
-                    overlapLeft = playerObj.Right - obj.Left;
+                    int overlapLeft = playerObj.Right - obj.Left;
 
                     // player jobb oldal ellenőrzése
 
-                    overlapRight = obj.Right - playerObj.Left;
+                    int overlapRight = obj.Right - playerObj.Left;
 
                     int min = Math.Min(
                         Math.Min(overlapLeft, overlapRight),
