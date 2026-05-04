@@ -1,4 +1,4 @@
-﻿using Platformer.Logic;
+﻿using Platformer.Logic.Fundamentals;
 
 namespace Platformer.Game
 {

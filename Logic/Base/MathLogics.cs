@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Platformer.Logice
+namespace Platformer.Logic.Base
 {
     internal static class MathLogics
     {
@@ -23,7 +23,7 @@ namespace Platformer.Logice
 
         public static float GetMagnitude((int, int) vector)
         {
-            return (float)Math.Sqrt((vector.Item1 * vector.Item1) + (vector.Item2 * vector.Item2));
+            return (float)Math.Sqrt(vector.Item1 * vector.Item1 + vector.Item2 * vector.Item2);
         }
 
         public static (float, float) Normalize((int, int) vector)

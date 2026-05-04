@@ -1,7 +1,7 @@
 ﻿using Platformer.Game;
 using System.Diagnostics;
 
-namespace Platformer.Logic
+namespace Platformer.Logic.Fundamentals
 {
     internal static class World
     {

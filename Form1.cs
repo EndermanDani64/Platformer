@@ -1,5 +1,6 @@
 using Platformer.Game;
-using Platformer.Logic;
+using Platformer.Logic.Base.Animation;
+using Platformer.Logic.Fundamentals;
 using System.Diagnostics;
 
 namespace Platformer
@@ -49,6 +50,7 @@ namespace Platformer
         // ##################################################################################### //
 
         GameObject ground;
+        Animation testAnim;
         TriggerObject testywest;
 
         /// <summary>
@@ -57,7 +59,10 @@ namespace Platformer
         private void Start()
         {
             ground = new GameObject((Size.Width / 2, Size.Height-75), (900, 75), true, this);
+            testAnim = new(ground, "C:\\Users\\EndermanDani64-YT\\Documents\\TestImagez", 500);
             testywest = new TriggerObject((Size.Width / 2, Size.Height-250), (100, 50), false, _player.playerCollision, this);
+
+            testAnim.Play(true);
         }
 
         private void Update()

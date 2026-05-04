@@ -1,4 +1,5 @@
 ﻿using Platformer.Game;
+using Platformer.Logic.Fundamentals;
 using System;
 using System.Collections.Generic;
 using System.Linq;

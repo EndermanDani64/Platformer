@@ -1,5 +1,6 @@
 ﻿using Platformer.Logic;
-using Platformer.Logice;
+using Platformer.Logic.Base;
+using Platformer.Logic.Fundamentals;
 using System.Diagnostics;
 
 namespace Platformer.Game

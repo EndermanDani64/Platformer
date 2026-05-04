@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
-namespace Platformer.Logic
+namespace Platformer.Logic.Fundamentals
 {
     internal static class Time
     {
@@ -21,12 +21,21 @@ namespace Platformer.Logic
         // main methods
 
         /// <summary>
-        /// Gets a void returning function, and when the time is up, it runs the function.
+        /// Waits x miliseconds and then it runs the function.
         /// </summary>
-        public static async void Timeout(Action onCompletion, int ms)
+        public static async void DelayCall(Action onCompletion, int ms)
         {
             await Task.Delay(ms);
             onCompletion();
+        }
+
+        /// <summary>
+        /// Gets a void returning function, and when the time is up, it runs the function.
+        /// </summary>
+        public static async void Sleep(int ms)
+        {
+            await Task.Delay(ms);
+            return;
         }
 
         // base methods
