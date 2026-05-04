@@ -1,20 +1,23 @@
 ﻿using Platformer.Logic;
-using System.Diagnostics;
 
 namespace Platformer.Game
 {
     internal class Player
     {
-        public (int, int) targetDir = (0, 0);
-        GameObject playerCollision;
+        public (int, int) movingDir = (0, 0);
+        public (int, int) targetDir = (0, 1);
+
+        public GameObject playerCollision;
+        public GameObject interactionCollision;
 
         public void Movment()
         {
-            int x = playerObj.Location.X + targetDir.Item1 * 2;
-            int y = playerObj.Location.Y + targetDir.Item2 * 2;
+            int x = playerObj.Location.X + movingDir.Item1 * 2;
+            int y = playerObj.Location.Y + movingDir.Item2 * 2;
 
             playerObj.Location = new Point(x, y);
             playerCollision.baseObject.Location = new Point(playerObj.Location.X, playerObj.Location.Y + playerObj.Size.Height - playerObj.Size.Width);
+            interactionCollision.baseObject.Location = new Point(playerObj.Location.X + (targetDir.Item1 * 45), (playerObj.Location.Y + ((playerObj.Size.Height / 2) / 2)) + (targetDir.Item2 * 60));
         }
 
         public void CheckCollision()
@@ -78,7 +81,11 @@ namespace Platformer.Game
                 (playerObj.Size.Width, playerObj.Size.Width), true, formInstanceRef
             );
 
-            playerCollision.formInstanceRef = formInstanceRef;
+            interactionCollision = new(
+                (playerObj.Location.X + (targetDir.Item1 * 45), (playerObj.Location.Y + ((playerObj.Size.Height / 2) / 2)) + (targetDir.Item2 * 60)), 
+                (playerObj.Size.Width, playerObj.Size.Width), false, formInstanceRef
+            );
+
             playerCollision.baseObject.BackColor = Color.Gray;
 
             Time.Update += CheckCollision;

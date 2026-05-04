@@ -40,7 +40,7 @@
             playerObj.BackColor = SystemColors.ActiveCaptionText;
             playerObj.Location = new Point(361, 310);
             playerObj.Name = "playerObj";
-            playerObj.Size = new Size(25, 50);
+            playerObj.Size = new Size(30, 60);
             playerObj.TabIndex = 0;
             playerObj.TabStop = false;
             // 

@@ -28,7 +28,7 @@ namespace Platformer.Logic
 
             formInstanceRef.Controls.Add(baseObject);
 
-            if (collision) World.gameObjectsPicBoxes.Add(baseObject);
+            if (collision) { World.gameObjectsPicBoxes.Add(baseObject); }
 
             this.formInstanceRef = formInstanceRef;
         }

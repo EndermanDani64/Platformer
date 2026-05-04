@@ -5,7 +5,7 @@ namespace Platformer.Logic
 {
     internal static class World
     {
-        public static int unitSquareSize = 25;
+        public static int unitSquareSize = 50;
 
         public static List<GameObject> Layer0;
         public static List<GameObject> Layer1;

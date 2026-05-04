@@ -57,7 +57,7 @@ namespace Platformer
         private void Start()
         {
             ground = new GameObject((Size.Width / 2, Size.Height-75), (900, 75), true, this);
-            testywest = new TriggerObject((Size.Width / 2, Size.Height-250), (100, 50), false, _player, this);
+            testywest = new TriggerObject((Size.Width / 2, Size.Height-250), (100, 50), false, _player.playerCollision, this);
         }
 
         private void Update()
@@ -71,49 +71,49 @@ namespace Platformer
         {
             if (e.KeyCode == Keys.W) 
             { 
-                _player.targetDir.Item2 = 0;
-                Debug.WriteLine($"keyup, Up targetDir = {_player.targetDir}");
+                _player.movingDir.Item2 = 0;
             }
             else if (e.KeyCode == Keys.S)
             {
-                _player.targetDir.Item2 = 0;
-                Debug.WriteLine($"keyDOWN, Down targetDir = {_player.targetDir}");
+                _player.movingDir.Item2 = 0;
             }
 
             if (e.KeyCode == Keys.A) 
             { 
-                _player.targetDir.Item1 = 0;
-                Debug.WriteLine($"keyup, Left targetDir = {_player.targetDir}");
+                _player.movingDir.Item1 = 0;
             }
             else if (e.KeyCode == Keys.D) 
             { 
-                _player.targetDir.Item1 = 0;
-                Debug.WriteLine($"keyup, Right targetDir = {_player.targetDir}");
+                _player.movingDir.Item1 = 0;
             }
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == Keys.W)
             {
+                _player.movingDir.Item2 = -1;
+                _player.targetDir.Item1 = 0;
                 _player.targetDir.Item2 = -1;
-                Debug.WriteLine($"keyDOWN, Up targetDir = {_player.targetDir}");
             }
 
             if (keyData == Keys.S)
             {
+                _player.movingDir.Item2 = 1;
+                _player.targetDir.Item1 = 0;
                 _player.targetDir.Item2 = 1;
-                Debug.WriteLine($"keyDOWN, Down targetDir = {_player.targetDir}");
             }
 
             if (keyData == Keys.A)
             {
+                _player.movingDir.Item1 = -1;
                 _player.targetDir.Item1 = -1;
-                Debug.WriteLine($"keyDOWN, Left targetDir = {_player.targetDir}");
+                _player.targetDir.Item2 = 0;
             }
             if (keyData == Keys.D)
             {
+                _player.movingDir.Item1 = 1;
                 _player.targetDir.Item1 = 1;
-                Debug.WriteLine($"keyDOWN, Right targetDir = {_player.targetDir}");
+                _player.targetDir.Item2 = 0;
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }

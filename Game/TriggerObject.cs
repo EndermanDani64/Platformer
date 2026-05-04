@@ -13,7 +13,7 @@ namespace Platformer.Game
     {
         public event System.Action OnTriggerEnter;
 
-        public TriggerObject((int, int) location, (int, int) size, bool collision, Player playerRef, Form1 formInstanceRef) 
+        public TriggerObject((int, int) location, (int, int) size, bool collision, GameObject playerColliderRef, Form1 formInstanceRef) 
             : base(location, size, collision, formInstanceRef)
         {
             Location = new(location.Item1, location.Item2);
@@ -21,14 +21,14 @@ namespace Platformer.Game
 
             baseObject.BackColor = Color.Red;
 
-            this.playerRef = playerRef;
+            this.playerColliderRef = playerColliderRef;
             Time.Update += CheckTrigger;
         }
 
         public void CheckTrigger()
         {
             Rectangle triggerRect = baseObject.Bounds;
-            Rectangle playerRect = playerRef.playerObj.Bounds;
+            Rectangle playerRect = playerColliderRef.baseObject.Bounds;
 
             if (triggerRect.IntersectsWith(playerRect))
             {
@@ -37,6 +37,6 @@ namespace Platformer.Game
             }
         }
 
-        private Player playerRef;
+        private GameObject playerColliderRef;
     }
 }
