@@ -37,8 +37,8 @@
             // 
             // playerObj
             // 
-            playerObj.BackColor = SystemColors.ActiveCaptionText;
-            playerObj.Location = new Point(361, 310);
+            playerObj.BackColor = Color.Transparent;
+            playerObj.Location = new Point(287, 229);
             playerObj.Name = "playerObj";
             playerObj.Size = new Size(30, 60);
             playerObj.TabIndex = 0;

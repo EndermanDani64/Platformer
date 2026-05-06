@@ -14,6 +14,7 @@ namespace Platformer.Game
             Size = new(size.Item1, size.Item2);
 
             baseObject.BackColor = Color.Red;
+            baseObject.ImageLocation = "C:\\Users\\EndermanDani64-YT\\Documents\\TestImagez\\toolstrigger.png";
 
             this.playerColliderRef = playerColliderRef;
             Time.Update += CheckTrigger;

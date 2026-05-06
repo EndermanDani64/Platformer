@@ -77,19 +77,27 @@ namespace Platformer
             if (e.KeyCode == Keys.W) 
             { 
                 _player.movingDir.Item2 = 0;
+                _player.playerObj.ImageLocation = "C:\\Users\\EndermanDani64-YT\\Documents\\TestImagez\\forwardIdle.png";
+                _player.playerObj.BackColor = Color.Transparent;
             }
             else if (e.KeyCode == Keys.S)
             {
                 _player.movingDir.Item2 = 0;
+                _player.playerObj.ImageLocation = "C:\\Users\\EndermanDani64-YT\\Documents\\TestImagez\\backwardIdle.png";
+                _player.playerObj.BackColor = Color.Transparent;
             }
 
             if (e.KeyCode == Keys.A) 
             { 
                 _player.movingDir.Item1 = 0;
+                _player.playerObj.ImageLocation = "C:\\Users\\EndermanDani64-YT\\Documents\\TestImagez\\rightIdle.png";
+                _player.playerObj.BackColor = Color.Transparent;
             }
             else if (e.KeyCode == Keys.D) 
             { 
                 _player.movingDir.Item1 = 0;
+                _player.playerObj.ImageLocation = "C:\\Users\\EndermanDani64-YT\\Documents\\TestImagez\\leftIdle.png";
+                _player.playerObj.BackColor = Color.Transparent;
             }
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)

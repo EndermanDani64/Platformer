@@ -57,6 +57,8 @@ namespace Platformer.Logic.Base.Animation
             _animTimer.Interval = _animationInterval;
             _animTimer.Start();
             _animTimer.Tick += AnimTick;
+
+            Animator.ActiveAnimations.Add(this);
         }
 
         private int _spriteImageIndexCounter = 0;
@@ -89,6 +91,8 @@ namespace Platformer.Logic.Base.Animation
             _animTimer.Stop();
             _animTimer.Tick -= AnimTick;
             _isPlaying = false;
+
+            Animator.ActiveAnimations.Remove(this);
         }
 
         public bool IsPlaying() { return _isPlaying; }

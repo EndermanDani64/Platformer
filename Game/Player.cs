@@ -1,4 +1,5 @@
 ﻿using Platformer.Logic.Fundamentals;
+using System.Windows.Forms;
 
 namespace Platformer.Game
 {
@@ -9,8 +10,28 @@ namespace Platformer.Game
 
         public GameObject playerCollision;
         public GameObject interactionCollision;
+        public void Initial()
+        {
+            playerCollision = new(
+                (playerObj.Location.X + (playerObj.Size.Width / 2), playerObj.Location.Y + playerObj.Size.Height - playerObj.Size.Width), 
+                (playerObj.Size.Width, playerObj.Size.Width), true, formInstanceRef
+            );
 
-        public void Movment()
+            interactionCollision = new(
+                (playerObj.Location.X + (targetDir.Item1 * 45), (playerObj.Location.Y + ((playerObj.Size.Height / 2) / 2)) + (targetDir.Item2 * 60)), 
+                (playerObj.Size.Width, playerObj.Size.Width), false, formInstanceRef
+            );
+
+            playerObj.SizeMode = PictureBoxSizeMode.CenterImage;
+
+            playerCollision.baseObject.BackColor = Color.Gray;
+
+            Time.Update += CheckCollision;
+            Time.Update += Movment;
+            Time.Update += UpdateBackground;
+        }
+
+        private void Movment()
         {
             int x = playerObj.Location.X + movingDir.Item1 * 2;
             int y = playerObj.Location.Y + movingDir.Item2 * 2;
@@ -20,7 +41,7 @@ namespace Platformer.Game
             interactionCollision.baseObject.Location = new Point(playerObj.Location.X + (targetDir.Item1 * 45), (playerObj.Location.Y + ((playerObj.Size.Height / 2) / 2)) + (targetDir.Item2 * 60));
         }
 
-        public void CheckCollision()
+        private void CheckCollision()
         {
             foreach (PictureBox obj in World.gameObjectsPicBoxes)
             {
@@ -74,22 +95,53 @@ namespace Platformer.Game
             }
         }
 
-        public void Initial()
+        /*private PictureBox _lastBackgroundChild;
+        private void UpdateBackground()
         {
-            playerCollision = new(
-                (playerObj.Location.X + (playerObj.Size.Width / 2), playerObj.Location.Y + playerObj.Size.Height - playerObj.Size.Width), 
-                (playerObj.Size.Width, playerObj.Size.Width), true, formInstanceRef
-            );
+            if (World.gameObjects.Count == 0) return;
 
-            interactionCollision = new(
-                (playerObj.Location.X + (targetDir.Item1 * 45), (playerObj.Location.Y + ((playerObj.Size.Height / 2) / 2)) + (targetDir.Item2 * 60)), 
-                (playerObj.Size.Width, playerObj.Size.Width), false, formInstanceRef
-            );
+            foreach (GameObject current in World.gameObjects)
+            {
+                //if (_lastBackgroundChild == current.baseObject) continue;
 
-            playerCollision.baseObject.BackColor = Color.Gray;
+                if (playerObj.Bounds.IntersectsWith(current.baseObject.Bounds))
+                {
+                    playerObj.Controls.Add(current.baseObject);
+                    current.baseObject.Location = new Point(0, 0);
+                    current.baseObject.BackColor = Color.Transparent;
 
-            Time.Update += CheckCollision;
-            Time.Update += Movment;
+                    _lastBackgroundChild = current.baseObject;
+                }
+            }
+        }*/
+
+        private void UpdateBackground()
+        {
+            if (playerObj.Image == null) return;
+
+            Bitmap bitmap0 = new Bitmap(playerObj.Image);
+            var bt = MakeTransparent(bitmap0, Color.Transparent, 30);
+            playerObj.Image = bt;
+        }
+
+        private Bitmap MakeTransparent(Bitmap bitmap, Color color, int tolerance)
+        {
+            Bitmap transparentImage = new Bitmap(bitmap);
+
+            for (int i = transparentImage.Size.Width - 1; i >= 0; i--)
+            {
+                for (int j = transparentImage.Size.Height - 1; j >= 0; j--)
+                {
+                    var currentColor = transparentImage.GetPixel(i, j);
+                    if (Math.Abs(color.R - currentColor.R) < tolerance &&
+                      Math.Abs(color.G - currentColor.G) < tolerance &&
+                      Math.Abs(color.B - currentColor.B) < tolerance)
+                        transparentImage.SetPixel(i, j, color);
+                }
+            }
+
+            transparentImage.MakeTransparent(color);
+            return transparentImage;
         }
 
         public Form1 formInstanceRef;

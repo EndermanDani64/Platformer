@@ -56,6 +56,8 @@ namespace Platformer.Game
             Size = new(size.Item1, size.Item2);
 
             baseObject.BackColor = Color.Blue;
+
+            World.gameObjects.Add(this);
         }
 
         private Point startLoc;
